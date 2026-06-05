@@ -32,16 +32,18 @@ First Name = "jordan"
 last_name = 'Smith"
 
 # This line is correct — no bug here.
-age = "28"
+# NOTE: age is an int. Keep that in mind for the print bug below.
+age = 28
 
 # --- YOUR PRINT STATEMENTS ---
 # BUG HINT: Python is case-sensitive
 #           Are all variable names spelled EXACTLY the same as when you defined them?
 print("Name: " + first_name.title() + " " + Last_name.title())
 
-# BUG HINT: Look at the data type of 'age' on line 30.
-#           Can you concatenate a string and an integer directly?
-print("Age: " + age + 1)
+# BUG HINT: Look at the data type of 'age' above.
+#           Can you join a string and an integer with + directly?
+#           (The fix is to convert the number to a string, or use an f-string.)
+print("Age: " + age)
 
 # ============================================================
 # REFLECTION QUESTIONS (discuss with your partner):

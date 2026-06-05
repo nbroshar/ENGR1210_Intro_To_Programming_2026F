@@ -121,35 +121,37 @@ def test_parse_score_line_leading_whitespace_on_name():
 
 
 # ============================================================
-# STUB 2 — Your turn: test with trailing whitespace on the score
+# STUB 2 — Your turn: a space BEFORE the colon
 #
-# What should parse_score_line("alice: 95 ") return?
-# (Note the trailing space after 95)
-# The score should still be the integer 95.
-# Without .strip(), int(" 95 ") raises a ValueError.
+# What should parse_score_line("alice : 95") return?
+# (Note the space before the colon.) Splitting on ':' puts
+# "alice " — WITH a trailing space — into the name slot.
+# The name in the result should be "alice", not "alice ".
 #
-# Write an assert that verifies the score is still 95.
+# Write an assert that catches this. After fixing Bug 4
+# (stripping the name), this test should pass.
 #
-# Test case category: EDGE (trailing whitespace)
+# Test case category: EDGE (trailing whitespace on the name)
 # ============================================================
-def test_parse_score_line_trailing_whitespace_on_score():
-    """'alice: 95 ' should return score 95 despite trailing space."""
+def test_parse_score_line_space_before_colon():
+    """'alice : 95' should return name 'alice' without the space."""
     pass   # TODO: replace with a real assert statement
 
 
 # ============================================================
-# STUB 3 — Your turn: test with double space after the colon
+# STUB 3 — Your turn: a messy line with spaces everywhere
 #
-# What should parse_score_line("alice:  95") return?
-# (Note two spaces between colon and score)
-# The score should still be the integer 95.
+# Real exports are messy. What should parse_score_line("  bob  :  82  ")
+# return? The answer is ("bob", 82): the name strips down to "bob",
+# and int() turns "  82  " into 82. With the bug, the name comes
+# back as "  bob  " — so this test fails until the name is stripped.
 #
-# Write an assert that verifies this edge case.
+# Write an assert (or two) that checks BOTH the name and the score.
 #
-# Test case category: EDGE (extra internal whitespace)
+# Test case category: EDGE (whitespace on both sides)
 # ============================================================
-def test_parse_score_line_double_space_after_colon():
-    """'alice:  95' (double space) should still return score 95."""
+def test_parse_score_line_messy_whitespace():
+    """'  bob  :  82  ' should return ('bob', 82)."""
     pass   # TODO: replace with a real assert statement
 
 
@@ -160,24 +162,26 @@ def test_parse_score_line_double_space_after_colon():
 # thing: function name, docstring, and assert statement(s).
 #
 # What to test:
-#   parse_score_line() with a MINIMUM boundary score of 0.
-#   A student who scored zero is still a valid entry.
-#   The function should return ("diana", 0) for "diana: 0".
+#   parse_score_line() with a MINIMUM boundary score of 0,
+#   on a line that ALSO has stray whitespace around the name:
+#       " diana : 0 "   ->   ("diana", 0)
+#   A student who scored zero is still a valid entry, and the
+#   name must come back clean.
 #
 # Your test must:
-#   1. Call parse_score_line() with a zero score.
-#   2. Assert the name is correct.
+#   1. Call parse_score_line(" diana : 0 ").
+#   2. Assert the name is "diana" (no surrounding spaces).
 #   3. Assert the score is the INTEGER 0 — not the string "0".
 #   4. Assert that isinstance(score, int) is True.
 #
 # Why this matters:
-#   Zero is a classic edge/boundary value.
-#   Some buggy implementations treat 0 as falsy and skip it.
-#   In Python: if score: will be False when score == 0,
-#   which can cause a zero score to be silently ignored.
-#   A unit test catches this before it reaches a grade book.
+#   Zero is a classic boundary value, and external data is messy.
+#   This single test guards two things at once: that a stripped
+#   name is correct, and that a real zero is never lost.
+#   (Aside: elsewhere, code like  if score:  treats 0 as False,
+#   which can silently drop a zero — another reason to test it.)
 #
-# Test case category: BOUNDARY + EDGE (zero as a valid score)
+# Test case category: BOUNDARY + EDGE (zero score + whitespace)
 #
 # After you write this test, make sure it PASSES with your
 # fixed version of parse_score_line().
@@ -194,10 +198,10 @@ def test_parse_score_line_double_space_after_colon():
 # You should see:
 #   test_parse_score_line_typical                    PASSED
 #   test_parse_score_line_returns_integer_score      PASSED
-#   test_parse_score_line_leading_whitespace_on_name PASSED  ← stub 1
-#   test_parse_score_line_trailing_whitespace_score  PASSED  ← stub 2
-#   test_parse_score_line_double_space_after_colon   PASSED  ← stub 3
-#   test_parse_score_line_zero_score                 PASSED  ← your test
+#   test_parse_score_line_leading_whitespace_on_name PASSED  <- stub 1
+#   test_parse_score_line_space_before_colon         PASSED  <- stub 2
+#   test_parse_score_line_messy_whitespace           PASSED  <- stub 3
+#   test_parse_score_line_zero_score_with_spaces     PASSED  <- your test
 #
 # All 6 passing = Bug 4 is fixed + all tests written.
 

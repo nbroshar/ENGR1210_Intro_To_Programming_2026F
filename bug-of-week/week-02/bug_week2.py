@@ -23,6 +23,13 @@
 #           - IndexError  → you asked for a position that doesn't exist
 #           - AttributeError → you called a method that doesn't belong
 #                              to that data type
+#
+#   HEADS-UP ON ORDER: Python checks the WHOLE file for syntax errors
+#           BEFORE it runs any of it. So even though Bug 1 (below) is
+#           higher up, the SyntaxError in Bug 2 will be reported FIRST,
+#           because the program can't start until the syntax is valid.
+#           Fix whatever Python points at, save, and run again — the
+#           bug numbers are just labels, not the order you'll hit them.
 # ============================================================
 
 # --- OUR LIST OF COURSES ---

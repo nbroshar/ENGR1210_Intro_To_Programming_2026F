@@ -1,5 +1,6 @@
 # bug_week8.py
-# BUG OF THE WEEK - Files and Exceptions
+# BUG OF THE WEEK - Week 8: Files and Exceptions
+# Chapter 10 - Python Crash Course, 3rd Edition
 #
 # INSTRUCTIONS: This file has 4 bugs in it.
 # Bug 1: Find with the console error message.
@@ -53,7 +54,7 @@
 # gracefully, and let the program continue — or at least
 # fail with a useful message instead of a raw traceback.
 #
-# Basic structure:
+# Basic structure (p. 185-189):
 #
 #   try:
 #       # code that might raise an exception
@@ -73,13 +74,14 @@
 #   dangerous patterns in all of Python.
 #
 # ============================================================
-# IMPORTS 
+# IMPORTS — pre-approved boilerplate, covered in Ch. 10
+# (We'll do a full import deep-dive in a later week.)
 # pathlib.Path  — handles file paths across Windows/Mac/Linux
 # json          — reads and writes JSON-formatted data files
 # ============================================================
 
-from pathlib import Path    # standard library — no install needed
-import json                 # standard library — no install needed
+from pathlib import Path
+import json
 
 
 # ============================================================
@@ -89,7 +91,7 @@ import json                 # standard library — no install needed
 # about the path is wrong. The file exists — but Python can't
 # find it. Read the error message carefully.
 #
-# HINT: Read about file paths.
+# HINT: Read about file paths (p. 176-178).
 #       Path('courses.txt') looks in the CURRENT WORKING
 #       DIRECTORY — the folder VS Code opened your terminal in.
 #       The error message will tell you exactly what path
@@ -132,7 +134,8 @@ for course in courses:
 #      Is 'data' ever assigned? Or is the return happening
 #      before the data is actually read?
 #
-# HINT: Read about working with files and return values.
+# HINT: Read about working with JSON (p. 197-199) and
+#       return values (Ch. 8, p. 143-145).
 #       The function returns too early — before the file
 #       has been read. A misplaced return statement inside
 #       a function sends execution back immediately,
@@ -163,7 +166,7 @@ else:
 #          THE MOST DANGEROUS BUG THIS WEEK
 #
 # save_score() is supposed to add a new student score to
-# scores.json. It has exception handling but the exception
+# scores.json. It has exception handling — but the exception
 # handling is BROKEN in a way that silently swallows errors.
 #
 # Step 1: Run the program as-is. It prints "Score saved!"
@@ -230,12 +233,12 @@ save_score("eve", 88)
 #
 # Run: python -m pytest test_week8.py -v
 #
-# HINT: Think about WHITESPACE edge cases.
+# HINT: Think about WHITESPACE edge cases (p. 179-180).
 #       What happens when the input line has extra spaces?
 #       "alice:  95"   (two spaces after the colon)
 #       " alice: 95"   (leading space before the name)
 #       "alice: 95 "   (trailing space after the score)
-#       What string method can you use to clean up the name and score?
+#       The fix is a single string method you learned in Ch. 2.
 # ============================================================
 def parse_score_line(line):
     """
@@ -273,7 +276,7 @@ print(f"  Parsed: name='{result[0]}', score={result[1]}")
 #
 #   3. Bug 3 — Bare except:
 #      A bare except: is sometimes called "Pokemon exception
-#      handling" because it catches them all. Why is this always
+#      handling" — it catches them all. Why is this always
 #      wrong? Give a concrete example of a bug that a bare
 #      except would permanently hide in a real program.
 #      What is the correct pattern to use instead?

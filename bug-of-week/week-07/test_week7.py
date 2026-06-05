@@ -91,8 +91,6 @@
 # ============================================================
 import pytest
 from bug_week7 import format_student, format_schedule, apply_discount, build_roster
-import pytest
-from bug_week7 import format_student, format_schedule, apply_discount, build_roster
 
 
 # ============================================================

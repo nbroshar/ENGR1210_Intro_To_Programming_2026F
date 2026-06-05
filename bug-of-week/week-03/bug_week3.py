@@ -19,6 +19,11 @@
 #
 #   STEP 4: Repeat Steps 1-3 until the program runs cleanly.
 #
+#   IMPORTANT THIS WEEK: A program that runs is NOT the same as a
+#           program that WORKS. Two of this week's bugs do not crash
+#           at all — they produce wrong or missing output. After the
+#           crashes are gone, READ THE OUTPUT and ask: is it correct?
+#
 #   NEW THIS WEEK: You may see an IndentationError.
 #           - IndentationError → Python is strict about indentation
 #             inside a for loop. Every line inside the loop MUST be
@@ -30,16 +35,16 @@
 planets = ["mercury", "venus", "earth", "mars", "jupiter", "saturn"]
 
 # ============================================================
-# BUG 1
+# BUG 1  (a real IndentationError — the program won't run)
 # BUG HINT: Read about for loop syntax carefully.
-#           Every line that belongs INSIDE the loop must be indented.
-#           Every line OUTSIDE the loop must NOT be indented.
-#           Which print statement below is in the wrong place?
+#           The body of a for loop MUST be indented underneath it.
+#           Look at the print that is supposed to run for each planet —
+#           is it indented inside the loop, or sitting at the margin?
 # ============================================================
 print("--- All Planets ---")
 for planet in planets:
-    print(planet.title())
-print("  (part of our solar system)")   # <-- should this be inside or outside?
+print(planet.title())   # BUG 1: not indented — should be inside the loop
+print("(part of our solar system)")
 
 # ============================================================
 # BUG 2
@@ -49,7 +54,7 @@ print("  (part of our solar system)")   # <-- should this be inside or outside?
 #           The goal here is to print numbers 1 through 5 inclusive.
 #           Is the range below producing the right numbers?
 # ============================================================
-print("\n--- Counting Planets (inner solar system) ---")
+print("\n--- Counting 1 to 5 ---")
 for number in range(1, 4):
     print(number)
 
@@ -67,12 +72,14 @@ print("Highest: " + str(scores.max()))
 print("Total points: " + str(scores.sum()))
 
 # ============================================================
-# BUG 4
-# BUG HINT: Read about list comprehensions.
-#           The syntax is: [expression for item in list]
-#           Look carefully at the line below — something is
-#           wrong with the structure of the comprehension.
-#           Hint: where does the 'for' keyword belong?
+# BUG 4  (a logic error — it runs, but prints nothing)
+# BUG HINT: This list comprehension is written correctly — it will
+#           run without any error. But it prints NOTHING. Read the
+#           FILTER part carefully:  if number > 10
+#           The numbers come from range(1, 6), which is 1, 2, 3, 4, 5.
+#           How many of those are greater than 10?
+#           That is why the result list is empty. Fix the condition
+#           so the comprehension squares the numbers 1 through 5.
 # ============================================================
 print("\n--- Squared Numbers ---")
 squares = [number**2 for number in range(1, 6) if number > 10]
@@ -87,7 +94,8 @@ for square in squares:
 #   2. Bug 3: What is the difference between a METHOD (like
 #      list.append()) and a FUNCTION (like min(), max(), sum())?
 #      Why can't you call min() as scores.min()?
-#   3. Bug 4: After fixing the syntax, does the list comprehension
-#      produce output? If not, WHY — and what does that tell you
-#      about where logic errors can hide in comprehensions?
+#   3. Bug 4: This comprehension had no syntax error at all — it
+#      ran and produced an empty list. Why is a bug that produces
+#      NO output and NO error message especially easy to miss?
+#      What does that tell you about where logic errors can hide?
 # ============================================================

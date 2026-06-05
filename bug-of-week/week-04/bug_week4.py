@@ -136,7 +136,7 @@ else:
 #
 # HINT: Read about string comparisons and case sensitivity.
 #       Python comparisons are case-sensitive: "Mushrooms" != "mushrooms"
-#       What list method could fix this? 
+#       What STRING method could make both sides match? 
 # ============================================================
 print("\n--- Pizza Topping Checker ---")
 available_toppings = ["Pepperoni", "Mushrooms", "Green Peppers", "Olives"]

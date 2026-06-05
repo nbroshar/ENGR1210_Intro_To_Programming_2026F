@@ -101,7 +101,7 @@ else:
 # No crash — just wrong data quietly sitting in the list.
 #
 # DEBUGGER INSTRUCTIONS:
-#   1. Set a breakpoint on: current = sandwich_queue.pop()
+#   1. Set a breakpoint on: current = sandwich_queue.pop(0)
 #   2. Press F5. In the Variables panel, watch sandwich_queue.
 #   3. Press F10 each iteration. What does sandwich_queue
 #      look like after each pop()? What does 'current' hold?
