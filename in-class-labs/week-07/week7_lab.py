@@ -3,32 +3,27 @@
 # Week 7 Lab: Functions  —  "THE GREAT REFACTOR"
 # Chapter 8 — Python Crash Course, 3rd Edition
 #
-# This is the turning point of the whole course.
+# This is the turning point of the course. For six weeks you built a WORKING
+# translator as one long script. Today you learn FUNCTIONS and MODULES by
+# REFACTORING it — reorganizing code you already have, without changing what
+# it does.
 #
-# For six weeks you built a WORKING translator as one long script, and you
-# copy-pasted the same encoding loop over and over. Today you learn the two
-# tools that fix that: FUNCTIONS (name a piece of logic so you can reuse it)
-# and MODULES (split the project across files via import).
+# >>> THE ONE RULE OF REFACTORING <<<
+# Make ONE small move, then RUN the program and check the output is EXACTLY
+# the same as before. If it changed, undo your last move and try again.
+# Never make two moves without running in between. This is how professionals
+# safely take a program apart: tiny steps, tested every time.
 #
-# You will NOT write new behavior this week. You will REORGANIZE behavior
-# you already wrote — that's what "refactoring" means. The output should
-# look the same; the CODE should get dramatically shorter and clearer.
-#
-# NEW FILES this week (already created for you, open them and read):
-#   morse_codebook.py  — your data (CODEBOOK, ENCODE_MAP, DECODE_MAP)
-#   hal_stub.py        — the hardware layer that turns "[LED]" into a
-#                        function call you could later run on a real Pico
+# HOW THIS LAB WORKS
+# Below is your translator, with every function written and working — run it
+# right now (F5) and note the output. Then follow STEP 1 -> STEP 4. Each step
+# tells you EXACTLY which lines to CUT (they're marked) and which NEW FILE to
+# paste them into, plus the one import line to add back here. Run after each
+# step. When you finish, THIS file will be a short "main" that imports four
+# small modules — and the output will be identical to what you see now.
 # =============================================================================
 
-# --- IMPORTS: pulling names in from other files ------------------------------
-# "from morse_codebook import ..." copies those names into this file.
-# "import hal_stub as hw" brings in the whole hardware module under the
-# short nickname 'hw'. This is the first time we've used import — it is the
-# doorway between files.
-from morse_codebook import ENCODE_MAP, DECODE_MAP
-import hal_stub as hw
-
-# Timing constants (these move into a config module in Week 8).
+# Timing constants (these can stay here for now; they move to config in Week 8)
 DOT_MS        = 100
 DASH_MS       = DOT_MS * 3
 SYMBOL_GAP_MS = DOT_MS * 1
@@ -37,12 +32,47 @@ WORD_GAP_MS   = DOT_MS * 7
 
 
 # =============================================================================
-# SECTION 1 — ANCHOR  (read the refactor; run it)
+# STEP 1 (ANCHOR — worked for you):  the DATA  ->  morse_codebook.py
+#
+#   1. Create a new file in this folder named  morse_codebook.py
+#   2. CUT everything between the CUT lines below and PASTE it into that file.
+#   3. Back here, DELETE those lines and add this import at the TOP of this file
+#      (just under the timing constants):
+#          from morse_codebook import CODEBOOK, ENCODE_MAP, DECODE_MAP
+#   4. SAVE both files and RUN. The output must be identical. (It will be!)
+#
+#   You just made your first MODULE — a file of code another file can import.
 # =============================================================================
-# Here is the encoding loop you wrote in Week 5 — but now it lives inside a
-# FUNCTION. A function has a name, takes inputs (parameters), and hands back
-# a result (return). Define it once, call it as many times as you like.
+# >>>>>>>>>>>>>>>>>>>>>>>>  CUT INTO morse_codebook.py  >>>>>>>>>>>>>>>>>>>>>>>>
+CODEBOOK = [
+    ('A', '.-'),   ('B', '-...'), ('C', '-.-.'), ('D', '-..'),  ('E', '.'),
+    ('F', '..-.'), ('G', '--.'),  ('H', '....'), ('I', '..'),   ('J', '.---'),
+    ('K', '-.-'),  ('L', '.-..'), ('M', '--'),   ('N', '-.'),   ('O', '---'),
+    ('P', '.--.'), ('Q', '--.-'), ('R', '.-.'),  ('S', '...'),  ('T', '-'),
+    ('U', '..-'),  ('V', '...-'), ('W', '.--'),  ('X', '-..-'), ('Y', '-.--'),
+    ('Z', '--..'),
+]
+ENCODE_MAP = {letter: pattern for (letter, pattern) in CODEBOOK}
+DECODE_MAP = {pattern: letter for (letter, pattern) in ENCODE_MAP.items()}
+# <<<<<<<<<<<<<<<<<<<<<<<<  END CUT (STEP 1)  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+
+# =============================================================================
+# STEP 2 (GUIDED — your turn):  ENCODING  ->  morse_encoder.py
+#
+#   1. Create a new file named  morse_encoder.py
+#   2. CUT the encode_message() function below into it.
+#   3. encode_message uses ENCODE_MAP, which now lives in morse_codebook.py —
+#      so at the TOP of morse_encoder.py add:
+#          from morse_codebook import ENCODE_MAP
+#   4. Back here, add to your imports at the top of this file:
+#          from morse_encoder import encode_message
+#   5. SAVE all files and RUN. Same output? Then the move was safe.
+#
+#   Lesson: a function can live in any file, as long as that file can import
+#   the names it needs.
+# =============================================================================
+# >>>>>>>>>>>>>>>>>>>>>>>>  CUT INTO morse_encoder.py  >>>>>>>>>>>>>>>>>>>>>>>>>
 def encode_message(message):
     """Return a list of Morse patterns for a message string.
 
@@ -55,128 +85,110 @@ def encode_message(message):
         else:
             encoded.append(ENCODE_MAP.get(character, '?'))
     return encoded
+# <<<<<<<<<<<<<<<<<<<<<<<<  END CUT (STEP 2)  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-# A function can also have a DEFAULT parameter value. decode_pattern()
-# returns '?' for unknown patterns unless the caller asks for something else.
+# =============================================================================
+# STEP 3 (EXTENSION — less help):  DECODING  ->  morse_decoder.py
+#
+#   Same pattern as Step 2, but you work out the import lines yourself.
+#   - Create morse_decoder.py and CUT BOTH functions below into it.
+#   - What name from morse_codebook do these functions need? Import it at the
+#     top of morse_decoder.py.
+#   - Add the matching "from morse_decoder import ..." line back here.
+#   - RUN and confirm identical output.
+#
+#   Notice decode_pattern() has a DEFAULT parameter (unknown_char='?') — that
+#   is a function feature from this chapter: callers can leave it out.
+# =============================================================================
+# >>>>>>>>>>>>>>>>>>>>>>>>  CUT INTO morse_decoder.py  >>>>>>>>>>>>>>>>>>>>>>>>>
 def decode_pattern(pattern, unknown_char='?'):
     """Return the character for one Morse pattern, or unknown_char."""
     return DECODE_MAP.get(pattern, unknown_char)
 
-
-# -- ANCHOR QUESTIONS ------------------------------------------------------
-# Q1. encode_message("SOS") and encode_message("HELLO") both work from ONE
-#     definition. How many times did you copy-paste this loop in Weeks 3-6?
-# Q2. What does 'return' do that 'print' does not? Why can you do
-#     encoded = encode_message("SOS") but not encoded = print(...)?
-# Q3. decode_pattern('xx') gives '?', but decode_pattern('xx', '_') gives
-#     '_'. Explain in your own words what a "default parameter" is.
-
-
-# =============================================================================
-# SECTION 2 — GUIDED  (write the mirror function)
-# =============================================================================
-# You have encode_message(). Now write its mirror: decode_message() takes a
-# list of patterns (the output of encode_message) and returns the text.
-
 def decode_message(encoded):
     """Return the decoded text string for a list of Morse patterns."""
-    # TODO: loop over each pattern in 'encoded'.
-    #   - if the pattern is ' ' (word gap), add a space ' ' to your result
-    #   - otherwise call decode_pattern(pattern) and add the returned letter
-    # Build the letters into a list, then join them into a string and RETURN it.
-    # Hint:
-    #   letters = []
-    #   for pattern in encoded:
-    #       if pattern == ' ':
-    #           letters.append(' ')
-    #       else:
-    #           letters.append(decode_pattern(pattern))
-    #   return "".join(letters)
-    return ""    # TODO: replace with your real implementation
+    letters = []
+    for pattern in encoded:
+        if pattern == ' ':
+            letters.append(' ')
+        else:
+            letters.append(decode_pattern(pattern))
+    return "".join(letters)
+# <<<<<<<<<<<<<<<<<<<<<<<<  END CUT (STEP 3)  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 # =============================================================================
-# SECTION 3 — EXTENSION  (refactor transmit to use the HAL)
-# =============================================================================
-# The transmitter is where the HAL earns its keep. Instead of print("[LED]")
-# we call hw.set_led_timed(). Swapping hal_stub for hal_pico later would make
-# THIS SAME FUNCTION blink a real LED — with no edits here.
+# STEP 4 (STRETCH — write a function + meet the HAL)
 #
-# Worked: transmit one symbol. Your job (below): finish transmit_pattern().
-
-def transmit_symbol(symbol):
-    """Blink one Morse element on the LED via the HAL."""
-    if symbol == '.':
-        hw.set_led_timed(True, DOT_MS)
-        hw.set_led_timed(False, SYMBOL_GAP_MS)
-    elif symbol == '-':
-        hw.set_led_timed(True, DASH_MS)
-        hw.set_led_timed(False, SYMBOL_GAP_MS)
-    # unknown symbols: do nothing (safe no-op)
-
-
-def transmit_pattern(pattern):
-    """Blink a whole pattern (e.g. '.-'), then hold a letter gap."""
-    # TODO: loop over each symbol in 'pattern' and call transmit_symbol().
-    #       After the loop, hold the letter gap with:
-    #           hw.set_led_timed(False, LETTER_GAP_MS)
-    pass    # TODO: replace with your loop + trailing letter gap
-
-
-# =============================================================================
-# SECTION 4 — STRETCH  (split into more modules)
-# =============================================================================
-# 1. Create TWO new files next to this one:
-#       morse_encoder.py  — move encode_message() (and import ENCODE_MAP)
-#       morse_decoder.py  — move decode_pattern() and decode_message()
-#    Then, at the top of THIS file, import them:
-#       from morse_encoder import encode_message
-#       from morse_decoder import decode_message
-#    Run again — identical output, but the project is now real modules.
+# Look at the transmit code inside the demo block below: it is still INLINE,
+# and it still uses print() for the "LED" like Weeks 1-6. Two jobs:
 #
-# 2. The one-line hardware swap: hal_stub.py and a (future) hal_pico.py
-#    share the same function names. Write a comment showing the single line
-#    you would change to move from simulation to real hardware:
-#       import hal_stub as hw     # <- swap to: import hal_pico as hw
-#    Why is "same names, different file" the entire point of the HAL?
-
-# TODO: do the module split and write the swap-line comment
+#   PART A — WRITE A FUNCTION:
+#     Wrap that inline transmit loop in a function:
+#         def transmit_pattern(pattern):
+#             ...the loop...
+#     and call transmit_pattern(encoded[0]) from the demo instead of the loop.
+#     RUN — same output.
+#
+#   PART B — MEET THE HAL (the file hal_stub.py is provided for you):
+#     hal_stub.py hides the "LED" behind functions like hw.set_led_timed().
+#     Move transmit_pattern() into a real transmitter later, and replace each
+#     print("[LED]...") with a HAL call:
+#         import hal_stub as hw
+#         hw.set_led_timed(True, DOT_MS)     # LED on for a dot
+#         hw.set_led_timed(False, SYMBOL_GAP_MS)
+#     RUN. The HAL is WHY modules matter: swap hal_stub for a future hal_pico
+#     (same function names, real pin code) and this program blinks a real LED
+#     on a Pi Pico — changing ONE import line and nothing else.
+# =============================================================================
 
 
 # =============================================================================
-# DEMO BLOCK — runs only when you run THIS file directly (python week7_lab.py).
-# This is the same __main__ guard you met in the Bug-of-the-Week files: it
-# keeps the demos from running when another file IMPORTS your functions.
+# DEMO BLOCK — runs only when you run THIS file directly. (The __main__ guard
+# is the same idea you met in the Bug-of-the-Week files: code under it does NOT
+# run when another file imports this one.)
 # =============================================================================
 if __name__ == "__main__":
     print("=" * 52)
-    print(f"Morse Translator — running on {hw.get_board_info()}")
+    print("Morse Translator — Week 7 refactor")
     print("=" * 52)
 
-    print("\n-- encode_message() called twice, one definition --")
-    print(f"  SOS   -> {encode_message('SOS')}")
-    print(f"  HELLO -> {encode_message('HELLO')}")
+    # encode + decode (these calls do NOT change as you refactor —
+    # that is the whole point: same behavior, tidier code)
+    print("\n-- encode / decode --")
+    for word in ["SOS", "HELLO"]:
+        enc = encode_message(word)
+        print(f"  {word:6} -> {enc} -> '{decode_message(enc)}'")
 
-    print("\n-- decode_message() (yours) should rebuild the text --")
-    sos = encode_message("SOS")
-    print(f"  {sos}  ->  '{decode_message(sos)}'")     # expect 'SOS' once done
-
-    print("\n-- transmit 'A' through the HAL --")
-    transmit_pattern(".-")    # fills in once you complete transmit_pattern
+    # transmit the first letter of SOS — STEP 4 turns this into a function
+    print("\n-- transmit first letter of SOS --")
+    first = encode_message("SOS")[0]      # '...'
+    for symbol in first:                  # <-- STEP 4 PART A: wrap this loop
+        if symbol == '.':
+            print(f"  [LED] ON {DOT_MS}ms (dot), OFF {SYMBOL_GAP_MS}ms")
+        elif symbol == '-':
+            print(f"  [LED] ON {DASH_MS}ms (dash), OFF {SYMBOL_GAP_MS}ms")
+    print(f"  [LED] OFF {LETTER_GAP_MS}ms (letter gap)")
 
 
 # =============================================================================
 # CHECKLIST
-#   [ ] ANCHOR:    ran it; encode_message works for SOS and HELLO; Q1-Q3 done
-#   [ ] GUIDED:    decode_message() rebuilds 'SOS' from its patterns
-#   [ ] EXTENSION: transmit_pattern() blinks via hw.set_led_timed + letter gap
-#   [ ] STRETCH:   (optional) split into morse_encoder/decoder; swap-line noted
-#   [ ] I can explain how import connects two files
-#   [ ] I can explain how the HAL lets one program run on PC AND Pico
+#   [ ] Ran the BEFORE version and noted the output
+#   [ ] STEP 1: codebook moved to morse_codebook.py; output unchanged
+#   [ ] STEP 2: encode_message moved to morse_encoder.py; output unchanged
+#   [ ] STEP 3: decode functions moved to morse_decoder.py; output unchanged
+#   [ ] STEP 4A: wrote transmit_pattern() as a function
+#   [ ] STEP 4B: transmit uses the HAL (hw.set_led_timed)
+#   [ ] After every step I RAN the program and the output stayed the same
+#   [ ] This file is now a short "main" that imports four modules
+#
+# WHY THIS MATTERS
+#   You didn't add a single feature today — and that's the point. Refactoring
+#   makes code easier to read, test, and reuse WITHOUT changing what it does.
+#   Tiny tested steps are how you safely improve real software.
 #
 # LOOKING AHEAD — Week 8
-#   Next week: FILES and EXCEPTIONS. You'll save settings and a session log
-#   to disk, wrap risky file reads in try/except, wire everything together
-#   in main.py, and run the project on a simulated Pico in Wokwi.
+#   Files and exceptions: save settings and a session log to disk, handle
+#   errors with try/except, and wire your new modules together in main().
 # =============================================================================

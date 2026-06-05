@@ -20,7 +20,7 @@ print("SECTION 1: ANCHOR — Storing the Codebook in Lists")
 print("=" * 52)
 
 # The codebook maps each letter to its Morse pattern. This week we don't
-# have dictionaries yet or loops, so we store
+# have dictionaries yet (those are Week 5) or loops (Week 3), so we store
 # the data in TWO PARALLEL LISTS that line up by position:
 #
 #     letters[0] is 'A'   and   patterns[0] is '.-'
