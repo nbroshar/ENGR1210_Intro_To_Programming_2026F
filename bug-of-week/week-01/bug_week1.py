@@ -1,6 +1,5 @@
 # bug_week1.py
 # BUG OF THE WEEK - Week 1: Variables & Simple Data Types
-# Chapter 2 - Python Crash Course, 3rd Edition
 #
 # INSTRUCTIONS: This file has 4 bugs in it.
 # Follow the structured debugging steps below to find and fix them all.
@@ -24,7 +23,7 @@
 # ============================================================
 
 # --- YOUR VARIABLES --- 
-# BUG HINT: Read variable naming rules on p. 19 of your textbook.
+# BUG HINT: Read variable naming rules in your textbook.
 #           Can a variable name contain a space?
 First Name = "jordan"
 
@@ -36,11 +35,11 @@ last_name = 'Smith"
 age = "28"
 
 # --- YOUR PRINT STATEMENTS ---
-# BUG HINT: Python is case-sensitive (p. 19).
+# BUG HINT: Python is case-sensitive
 #           Are all variable names spelled EXACTLY the same as when you defined them?
 print("Name: " + first_name.title() + " " + Last_name.title())
 
-# BUG HINT: Look at the data type of 'age' on line 30 (p. 29-31).
+# BUG HINT: Look at the data type of 'age' on line 30.
 #           Can you concatenate a string and an integer directly?
 print("Age: " + age + 1)
 
