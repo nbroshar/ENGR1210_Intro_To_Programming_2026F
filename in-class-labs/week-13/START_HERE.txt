@@ -1,0 +1,8 @@
+WEEK 13 — Stage 3 bring-up (real Raspberry Pi Pico)
+
+Same project as Week 10 (week-10/). THIS WEEK, do RUNG 3 in hardware_bringup.md:
+  1. Flash MicroPython onto the board.
+  2. Run blink_test.py on the REAL Pico (prove the board works).
+  3. Then run main.py to blink Morse on the real LED.
+
+Next: week-14/ (the optical receiver).
