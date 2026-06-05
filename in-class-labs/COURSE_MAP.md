@@ -103,7 +103,7 @@ Flash the identical files to a physical Pico. Nothing in the code changes.
   Milestone: a working two-Pico Morse link the team demos.
 
 ==============================================================================
-## Notes & levers (so you keep control of the calendar)
+## Notes & levers
 
 - Weeks 1-8 are fixed and mirror the Bug-of-the-Week concepts. Don't move them.
 
