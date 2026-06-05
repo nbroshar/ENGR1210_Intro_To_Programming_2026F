@@ -1,5 +1,5 @@
 # bug_week3.py
-# BUG OF THE WEEK: Working with Lists
+# BUG OF THE WEEK: Working with List
 #
 # INSTRUCTIONS: This file has 4 bugs in it.
 # Follow the SAME structured debugging process from Weeks 1 and 2.
