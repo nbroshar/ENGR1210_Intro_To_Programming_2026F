@@ -47,5 +47,5 @@ print("Age: " + age + 1)
 # REFLECTION QUESTIONS (discuss with your partner):
 #   1. How many times did you have to run the program to fix all 4 bugs?
 #   2. Which error message was the most helpful? Which was confusing?
-#   3. What is the difference between a SyntaxError and a TypeError?
+#   3. What is the difference between a SyntaxError, a NameError, and a TypeError?
 # ============================================================
