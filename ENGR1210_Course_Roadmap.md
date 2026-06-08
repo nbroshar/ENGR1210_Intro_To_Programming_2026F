@@ -1,8 +1,5 @@
 # ENGR 1210 — Course Roadmap
 
-> **Morse · Bug of the Week · AI — one journey.**
-> One semester, three threads, one engineer.
-
 This is the map for ENGR 1210. Three projects run in parallel all term, but they are
 really one arc: you **build** a real thing, you **prove** it's good, and you **direct**
 an AI to help — without ever being fooled by it.
