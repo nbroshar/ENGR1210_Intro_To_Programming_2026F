@@ -69,7 +69,7 @@ grade_book = {
     "alice":   95,
     "bob":     82,
     "carlos":  90,
-    "diana":   78,
+    "diana":   "78",
     "eve":     95,
 }
 
@@ -93,19 +93,23 @@ print(f"{student}'s grade: {grade_book[student]}")
 #
 # The loop below is supposed to print every student's grade
 # formatted as: "alice: 95"
-# But something is wrong — one student's grade prints
-# incorrectly. Reading the code might not show it immediately.
+# But something is wrong — one student's grade is stored as the
+# WRONG TYPE (a string). It still PRINTS fine, so the output looks
+# right — the bug only shows up when you inspect or COMPARE the value.
 #
 # DEBUGGER INSTRUCTIONS:
 #   1. Set a breakpoint on the line: for name, grade in grade_book.items():
 #   2. Press F5 to start the debugger.
 #   3. Press F10 to Step Over once — check: what are 'name' and 'grade'?
-#   4. Keep stepping. On which student does 'grade' have the wrong value?
+#   4. Keep stepping. On which student is 'grade' the wrong TYPE?
+#      (a string like '78' shows with quotes in the Variables panel)
 #   5. Now look at grade_book — do you see the problem?
 #
 # HINT: Read about looping through key-value pairs.
 #       Check every entry in grade_book carefully.
 #       One value was entered as a string instead of an integer.
+#       It prints fine, but it breaks the >= comparisons further
+#       down (a TypeError) until you change it back to a number.
 # ============================================================
 print("\n--- All Grades ---")
 for name, grade in grade_book.items():
